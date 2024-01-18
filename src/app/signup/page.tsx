@@ -3,18 +3,45 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function signUpPage() {
+
+  const router = useRouter()
   const [user, setUser] = React.useState({
     email: "",
     password: "",
-    username: "",
+    userName: "",
   });
 
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
-  const onSignup = () => {
+  useEffect(() => {
+    if(user.email.length > 0 && user.password.length > 0 && user.userName.length > 0){
+      setButtonDisabled(false)
+    }
+    else{
+      setButtonDisabled(true)
+    }
+  }, [user])
+  user
+  const onSignup = async() => {
+    try {
+      setLoading(false)
+      const response = await axios.post("/api/users/signup", user)
+      toast.success("Signup success");
+      router.push("/login")
+
+      
+    } catch (error) {
+      console.error(error)
+      toast.error("error.message")
+      error
+    }
+    finally{
+      setLoading(false)
+    }
     
   }
 
@@ -23,14 +50,14 @@ export default function signUpPage() {
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <h1>{loading ? "Processing" : "Signup"}</h1>
       <hr />
-      <label htmlFor="username">username</label>
+      <label htmlFor="userName">Username</label>
       <input
         className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black"
-        id="username"
+        id="userName"
         type="text"
-        value={user.username}
-        onChange={(e) => setUser({ ...user, username: e.target.value })}
-        placeholder="username"
+        value={user.userName}
+        onChange={(e) => setUser({ ...user, userName: e.target.value })}
+        placeholder="userName"
       />
       <label htmlFor="email">email</label>
       <input
