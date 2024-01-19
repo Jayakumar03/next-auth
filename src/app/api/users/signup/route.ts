@@ -2,6 +2,7 @@ import connect from "@/app/dbConfig/dbConfig"; // Databse connection
 import User from "@/models/userModel"; // UserSchema
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
+import sendEmail from "@/helpers/mailer";
 
 connect();
 
@@ -10,10 +11,10 @@ export async function POST(request: NextRequest) {
     const { userName, email, password } = await request.json();
 
     if (!userName || !email || !password)
-    return NextResponse.json({
-      message: "All fields are required ",
-      success: false,
-    });
+      return NextResponse.json({
+        message: "All fields are required ",
+        success: false,
+      });
 
     const isUserAlreadyExist = await User.findOne({ email: email });
 
@@ -39,6 +40,8 @@ export async function POST(request: NextRequest) {
         message: "Error while creating user",
         success: false,
       });
+
+    await sendEmail({ email, emailType: "VERIFY", userId: user._id });
 
     return NextResponse.json({
       message: "User created successfully",
