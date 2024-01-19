@@ -6,7 +6,7 @@ import { NextResponse, NextRequest } from "next/server";
 
 connect();
 
-export async function POST(request: NextResponse) {
+export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json();
 
