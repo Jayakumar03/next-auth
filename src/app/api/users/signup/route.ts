@@ -7,14 +7,13 @@ connect();
 
 export async function POST(request: NextRequest) {
   try {
-    console.log(request.json());
     const { userName, email, password } = await request.json();
 
     if (!userName || !email || !password)
-      return NextResponse.json({
-        error: "All the fileds are required",
-        sucess: false,
-      });
+    return NextResponse.json({
+      message: "All fields are required ",
+      success: false,
+    });
 
     const isUserAlreadyExist = await User.findOne({ email: email });
 
@@ -32,6 +31,8 @@ export async function POST(request: NextRequest) {
       email: email,
       password: hashedPassword,
     });
+
+    console.log(user);
 
     if (!user)
       return NextResponse.json({

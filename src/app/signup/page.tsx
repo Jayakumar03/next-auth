@@ -6,8 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function signUpPage() {
-
-  const router = useRouter()
+  const router = useRouter();
   const [user, setUser] = React.useState({
     email: "",
     password: "",
@@ -18,33 +17,31 @@ export default function signUpPage() {
   const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
-    if(user.email.length > 0 && user.password.length > 0 && user.userName.length > 0){
-      setButtonDisabled(false)
+    if (
+      user.email.length > 0 &&
+      user.password.length > 0 &&
+      user.userName.length > 0
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
     }
-    else{
-      setButtonDisabled(true)
-    }
-  }, [user])
-  user
-  const onSignup = async() => {
+  }, [user]);
+
+  const onSignup = async () => {
     try {
-      setLoading(false)
-      const response = await axios.post("/api/users/signup", user)
+      setLoading(false);
+      const response = await axios.post("/api/users/signup", user);
       toast.success("Signup success");
-      router.push("/login")
-
-      
+      router.push("/login");
     } catch (error) {
-      console.error(error)
-      toast.error("error.message")
-      error
+      console.error(error);
+      toast.error("error.message");
+      error;
+    } finally {
+      setLoading(false);
     }
-    finally{
-      setLoading(false)
-    }
-    
-  }
-
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
