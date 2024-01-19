@@ -44,7 +44,7 @@ const mailer = async ({ email, emailType, userId }: any) => {
         http://localhost:3000/verifyemail?token=${hashedToken}">here</a> to ${
         emailType === "VERIFY" ? "verify your email" : "reset your password"
       }
-        or copy and paste the link below in your browser. <br> ${
+        or copy and paste the10:18  Error: React Hook "useRouter" is called in function "loginPage" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use".  react-hooks/rules-of-hooks link below in your browser. <br> ${
           process.env.DOMAIN
         }/verifyemail?token=${hashedToken}
         </p>`,

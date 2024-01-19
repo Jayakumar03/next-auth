@@ -6,7 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Router } from "next/router";
 
-export default function loginPage() {
+export default function LoginPage() {
   const router = useRouter();
   const [user, setUser] = React.useState({
     email: "",
